@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common'
-import { ConfigModule } from '@nestjs/config'
-import { StreamersModule } from './streamers/streamers.module';
-import configuration from 'config/configuration'
+import { StreamersModule } from './streamers/streamers.module'
+import { AuthModule } from './auth/auth.module'
+import { UsersModule } from './users/users.module'
+import { AppController } from './app.controller'
 
 @Module({
-  imports: [StreamersModule]
+  controllers: [AppController],
+  imports: [StreamersModule, AuthModule, UsersModule],
 })
 export class AppModule {}
