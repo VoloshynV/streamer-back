@@ -1,7 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param } from '@nestjs/common'
+import { Controller, Get, Post, Body, Param, Put } from '@nestjs/common'
 import { StreamersService } from './streamers.service'
 import { CreateStreamerDto } from './dto/create-streamer.dto'
 import { UpdateStreamerDto } from './dto/update-streamer.dto'
+import { CurrentUser } from 'src/users/user.decorator'
+import { User } from 'src/users/users.service'
 
 @Controller('streamers')
 export class StreamersController {
@@ -22,8 +24,12 @@ export class StreamersController {
     return this.streamersService.findOne(+id)
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateStreamerDto: UpdateStreamerDto) {
-    return this.streamersService.update(+id, updateStreamerDto)
+  @Put(':id/vote')
+  update(
+    @Param('id') id: string,
+    @Body() updateStreamerDto: UpdateStreamerDto,
+    @CurrentUser() user: User
+  ) {
+    return this.streamersService.update(+id, updateStreamerDto, user.userId)
   }
 }

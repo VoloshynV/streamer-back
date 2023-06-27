@@ -1,7 +1,13 @@
-import { Injectable } from '@nestjs/common'
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common'
 import { CreateStreamerDto } from './dto/create-streamer.dto'
 import { UpdateStreamerDto } from './dto/update-streamer.dto'
 import { PrismaService } from 'src/prisma.service'
+import { User } from 'src/users/users.service'
 
 @Injectable()
 export class StreamersService {
@@ -57,12 +63,29 @@ export class StreamersService {
 
     if (!streamer) {
       throw new NotFoundException('Streamer not found')
-  }
+    }
 
     return streamer
   }
 
-  update(id: number, updateStreamerDto: UpdateStreamerDto) {
-    return `This action updates a #${id} streamer`
+  async update(streamerId: number, { vote }: UpdateStreamerDto, userId: User['userId']) {
+    try {
+      await this.prisma.vote.upsert({
+        where: { streamerId_userId: { streamerId, userId } },
+        update: { vote },
+        create: { vote, streamerId: streamerId, userId },
+        select: {
+          streamer: {
+            select: {
+              name: true,
+              nickname: true,
+            },
+          },
+          vote: true,
+        },
+      })
+    } catch (error) {
+      throw new BadRequestException()
+    }
   }
 }
