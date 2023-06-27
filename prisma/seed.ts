@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import { createPlatform, createUser } from './seed.helpers'
 
-const prisma = new PrismaClient()
+export const prisma = new PrismaClient()
 
 async function main() {
   const fakerRounds = 10

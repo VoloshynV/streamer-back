@@ -1,7 +1,6 @@
-import { PrismaClient } from '@prisma/client'
 import { hash } from 'bcrypt'
+import { prisma } from './seed'
 
-const prisma = new PrismaClient()
 const saltRounds = 10
 
 export const createUser = async (id: number) => {
