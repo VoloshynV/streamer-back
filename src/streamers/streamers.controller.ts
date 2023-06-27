@@ -4,6 +4,7 @@ import { CreateStreamerDto } from './dto/create-streamer.dto'
 import { UpdateStreamerDto } from './dto/update-streamer.dto'
 import { CurrentUser } from 'src/users/user.decorator'
 import { User } from 'src/users/users.service'
+import { Public } from 'src/auth/auth.decorator'
 
 @Controller('streamers')
 export class StreamersController {
@@ -15,11 +16,13 @@ export class StreamersController {
   }
 
   @Get()
+  @Public()
   findAll() {
     return this.streamersService.findAll()
   }
 
   @Get(':id')
+  @Public()
   findOne(@Param('id') id: string) {
     return this.streamersService.findOne(+id)
   }
