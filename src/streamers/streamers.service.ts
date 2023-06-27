@@ -70,7 +70,7 @@ export class StreamersService {
 
   async update(streamerId: number, { vote }: UpdateStreamerDto, userId: User['userId']) {
     try {
-      await this.prisma.vote.upsert({
+      return await this.prisma.vote.upsert({
         where: { streamerId_userId: { streamerId, userId } },
         update: { vote },
         create: { vote, streamerId: streamerId, userId },
