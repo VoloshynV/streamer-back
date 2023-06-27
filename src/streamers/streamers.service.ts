@@ -7,8 +7,47 @@ import { PrismaService } from 'src/prisma.service'
 export class StreamersService {
   constructor(private prisma: PrismaService) {}
 
-  create(createStreamerDto: CreateStreamerDto) {
-    return 'This action adds a new streamer'
+  async create(createStreamerDto: CreateStreamerDto) {
+    const streamer = await this.prisma.streamer.findUnique({
+      where: { nickname: createStreamerDto.nickname },
+    })
+
+    if (!streamer) {
+      return this.prisma.streamer.create({ data: createStreamerDto })
+    } else {
+      throw new ConflictException('Streamer already exists')
+    }
+  }
+
+  async findAll() {
+    const streamers = await this.prisma.streamer.findMany({
+      select: {
+        id: true,
+        name: true,
+        nickname: true,
+        votes: true,
+        platform: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    })
+
+    const streamersWithVotes = streamers.map((streamer) => {
+      const upvotes = streamer.votes.filter((vote) => vote.vote).length
+      const downvotes = streamer.votes.filter((vote) => !vote.vote).length
+
+      const { votes, ...streamerWithoutVotes } = streamer
+
+      return {
+        ...streamerWithoutVotes,
+        upvotes,
+        downvotes,
+      }
+    })
+
+    return streamersWithVotes
   }
 
   findAll() {

@@ -13,6 +13,7 @@ datasource db {
 model Streamer {
   id          Int      @id @default(autoincrement())
   name        String
+  nickname    String   @unique
   description String
   image       String
   platform    Platform @relation(fields: [platformId], references: [id])
