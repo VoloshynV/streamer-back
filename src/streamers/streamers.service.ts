@@ -50,12 +50,16 @@ export class StreamersService {
     return streamersWithVotes
   }
 
-  findAll() {
-    return `This action returns all streamers`
+  async findOne(id: number) {
+    const streamer = await this.prisma.streamer.findUnique({
+      where: { id },
+    })
+
+    if (!streamer) {
+      throw new NotFoundException('Streamer not found')
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} streamer`
+    return streamer
   }
 
   update(id: number, updateStreamerDto: UpdateStreamerDto) {
