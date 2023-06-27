@@ -1,11 +1,7 @@
 import { PrismaClient } from '@prisma/client'
+import { createPlatform, createUser } from './seed.helpers'
 
 const prisma = new PrismaClient()
-
-const fakeUser = (id: number) => ({
-  username: `user${id}`,
-  password: `user${id}`,
-})
 
 async function main() {
   const fakerRounds = 10
@@ -14,7 +10,7 @@ async function main() {
   /// --------- Users ---------------
   console.log('Seeding users...')
   for (let i = 1; i <= fakerRounds; i++) {
-    await prisma.user.create({ data: fakeUser(i) })
+    await createUser(i)
   }
 
   /// --------- Platforms ---------------
@@ -23,11 +19,7 @@ async function main() {
   const platforms = ['Twitch', 'YouTube', 'TikTok', 'Kick', 'Rumble']
 
   for (let i = 0; i < platforms.length; i++) {
-    await prisma.platform.create({
-      data: {
-        name: platforms[i],
-      },
-    })
+    await createPlatform(platforms[i])
   }
 }
 
