@@ -2,6 +2,6 @@ export class CreateStreamerDto {
   name: string
   nickname: string
   description: string
-  platformId: number
+  platform: string
   image: string
 }

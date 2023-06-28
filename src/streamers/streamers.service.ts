@@ -19,7 +19,16 @@ export class StreamersService {
     })
 
     if (!streamer) {
-      return this.prisma.streamer.create({ data: createStreamerDto })
+      return this.prisma.streamer.create({
+        data: {
+          ...createStreamerDto,
+          platform: {
+            connect: {
+              name: createStreamerDto.platform,
+            },
+          },
+        },
+      })
     } else {
       throw new ConflictException('Streamer already exists')
     }
