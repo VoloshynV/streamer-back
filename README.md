@@ -30,10 +30,22 @@ Create DB
   yarn prisma migrate deploy
 ```
 
+Generate Models
+
+```bash
+  yarn prisma generate
+```
+
 Seed DB
 
 ```bash
   yarn seed
+```
+
+Build App
+
+```bash
+  yarn build
 ```
 
 Іs needed to create `platform` data and `users` with which you can log in to the application.
