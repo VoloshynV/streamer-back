@@ -1,16 +1,17 @@
-import { Controller, Get, Post, Body, Param, Put } from '@nestjs/common'
-import { StreamersService } from './streamers.service'
-import { CreateStreamerDto } from './dto/create-streamer.dto'
-import { UpdateStreamerDto } from './dto/update-streamer.dto'
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common'
+import { Public } from 'src/auth/auth.decorator'
 import { CurrentUser } from 'src/users/user.decorator'
 import { User } from 'src/users/users.service'
-import { Public } from 'src/auth/auth.decorator'
+import { CreateStreamerDto } from './dto/create-streamer.dto'
+import { UpdateStreamerDto } from './dto/update-streamer.dto'
+import { StreamersService } from './streamers.service'
 
 @Controller('streamers')
 export class StreamersController {
   constructor(private readonly streamersService: StreamersService) {}
 
   @Post()
+  @Public()
   create(@Body() createStreamerDto: CreateStreamerDto) {
     return this.streamersService.create(createStreamerDto)
   }
@@ -23,16 +24,16 @@ export class StreamersController {
 
   @Get(':id')
   @Public()
-  findOne(@Param('id') id: string) {
-    return this.streamersService.findOne(+id)
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.streamersService.findOne(id)
   }
 
   @Put(':id/vote')
   update(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body() updateStreamerDto: UpdateStreamerDto,
     @CurrentUser() user: User
   ) {
-    return this.streamersService.update(+id, updateStreamerDto, user.userId)
+    return this.streamersService.update(id, updateStreamerDto, user.userId)
   }
 }
