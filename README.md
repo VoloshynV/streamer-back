@@ -42,12 +42,6 @@ Seed DB
   yarn seed
 ```
 
-Build App
-
-```bash
-  yarn build
-```
-
 Іs needed to create `platform` data and `users` with which you can log in to the application.
 You will have 10 users with logging data, for example:
 
@@ -55,6 +49,12 @@ You will have 10 users with logging data, for example:
 - Login - `user2` / password - `user2`;
 - `...`
 - Login - `user10` / password - `user10`;
+
+Build App
+
+```bash
+  yarn build
+```
 
 Start the server
 
