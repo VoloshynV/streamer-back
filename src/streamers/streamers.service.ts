@@ -4,10 +4,10 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common'
-import { CreateStreamerDto } from './dto/create-streamer.dto'
-import { UpdateStreamerDto } from './dto/update-streamer.dto'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { User } from 'src/users/users.service'
+import { CreateStreamerDto } from './dto/create-streamer.dto'
+import { UpdateStreamerDto } from './dto/update-streamer.dto'
 
 @Injectable()
 export class StreamersService {
@@ -27,6 +27,14 @@ export class StreamersService {
               name: createStreamerDto.platform,
             },
           },
+        },
+        select: {
+          id: true,
+          name: true,
+          nickname: true,
+          description: true,
+          platform: true,
+          image: true,
         },
       })
     } else {
@@ -68,6 +76,14 @@ export class StreamersService {
   async findOne(id: number) {
     const streamer = await this.prisma.streamer.findUnique({
       where: { id },
+      select: {
+        id: true,
+        name: true,
+        nickname: true,
+        description: true,
+        platform: true,
+        image: true,
+      },
     })
 
     if (!streamer) {
