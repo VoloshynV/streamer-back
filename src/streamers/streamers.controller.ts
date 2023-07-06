@@ -1,7 +1,16 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common'
 import { Public } from 'src/auth/auth.decorator'
 import { CurrentUser } from 'src/users/user.decorator'
-import { User } from 'src/users/users.service'
 import { CreateStreamerDto } from './dto/create-streamer.dto'
 import { UpdateStreamerDto } from './dto/update-streamer.dto'
 import { StreamersService } from './streamers.service'
@@ -13,6 +22,7 @@ export class StreamersController {
 
   @Post()
   @Public()
+  @UsePipes(new ValidationPipe())
   create(@Body() createStreamerDto: CreateStreamerDto) {
     return this.streamersService.create(createStreamerDto)
   }
@@ -30,6 +40,7 @@ export class StreamersController {
   }
 
   @Put(':id/vote')
+  @UsePipes(new ValidationPipe())
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateStreamerDto: UpdateStreamerDto,
