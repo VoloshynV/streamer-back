@@ -5,6 +5,7 @@ import { User } from 'src/users/users.service'
 import { CreateStreamerDto } from './dto/create-streamer.dto'
 import { UpdateStreamerDto } from './dto/update-streamer.dto'
 import { StreamersService } from './streamers.service'
+import { User } from '@prisma/client'
 
 @Controller('streamers')
 export class StreamersController {
