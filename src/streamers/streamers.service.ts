@@ -5,9 +5,9 @@ import {
   NotFoundException,
 } from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
-import { User } from 'src/users/users.service'
 import { CreateStreamerDto } from './dto/create-streamer.dto'
 import { UpdateStreamerDto } from './dto/update-streamer.dto'
+import { User } from '@prisma/client'
 
 @Injectable()
 export class StreamersService {
